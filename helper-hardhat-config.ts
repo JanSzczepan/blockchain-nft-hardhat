@@ -1,5 +1,6 @@
 export interface networkConfigItem {
    name: string
+   blockConfirmations?: number
 }
 
 export interface networkConfigInfo {
