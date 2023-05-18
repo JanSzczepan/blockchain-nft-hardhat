@@ -5,6 +5,7 @@ import '@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol';
 import '@openzeppelin/contracts/access/Ownable.sol';
 import '@chainlink/contracts/src/v0.8/interfaces/VRFCoordinatorV2Interface.sol';
 import '@chainlink/contracts/src/v0.8/VRFConsumerBaseV2.sol';
+import 'hardhat/console.sol';
 
 error RandomNft__NeedMoreETHSent();
 error RandomNft__RangeOutOfBounds();
@@ -120,7 +121,7 @@ contract RandomNft is ERC721URIStorage, VRFConsumerBaseV2, Ownable {
       return i_mintFee;
    }
 
-   function getDogTokenUris(uint256 index) public view returns (string memory) {
+   function getDogTokenUri(uint256 index) public view returns (string memory) {
       return s_dogTokenUris[index];
    }
 

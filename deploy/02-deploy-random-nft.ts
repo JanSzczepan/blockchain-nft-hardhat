@@ -20,7 +20,11 @@ export type Metadata = {
 
 const FUND_AMOUNT = '1000000000000000000000'
 const IMAGES_LOCATION = './images/randomNft/'
-let tokenUris: string[] = []
+let tokenUris: string[] = [
+   'ipfs://QmaWzpJrSnCRTkpxWHRhaihZcgt2KUk3u9fhgCDgBVXQum',
+   'ipfs://QmS8NXJui2SEbTAYLGcE3M1TmuaDh6dGRuj3xWmmjQqCZ6',
+   'ipfs://QmY3tp8FqaqJzaWHWAcqzdyK4XcaFgMbbcWcs2jjHfK54v',
+]
 
 const deployRandomNft: DeployFunction = async function (
    hre: HardhatRuntimeEnvironment
@@ -33,7 +37,7 @@ const deployRandomNft: DeployFunction = async function (
    let vrfCoordinatorV2Address: string | undefined
    let subscriptionId: string | undefined
 
-   if (process.env.UPLOAD_TO_PINATA) {
+   if (process.env.UPLOAD_TO_PINATA === 'true') {
       tokenUris = await handleTokenUris()
    }
 
@@ -72,6 +76,12 @@ const deployRandomNft: DeployFunction = async function (
       waitConfirmations: networkConfig[chainId].blockConfirmations || 1,
    })
 
+   if (developmentChains.includes(network.name)) {
+      const vrfCoordinatorV2Mock: VRFCoordinatorV2Mock =
+         await ethers.getContract('VRFCoordinatorV2Mock')
+      await vrfCoordinatorV2Mock.addConsumer(subscriptionId!, randomNft.address)
+   }
+
    if (
       !developmentChains.includes(network.name) &&
       process.env.ETHERSCAN_API_KEY
@@ -104,5 +114,5 @@ async function handleTokenUris() {
    return tokenUrisArr
 }
 
-deployRandomNft.tags = ['all', 'randomipfs', 'main']
+deployRandomNft.tags = ['all', 'randomnft', 'main']
 export default deployRandomNft
