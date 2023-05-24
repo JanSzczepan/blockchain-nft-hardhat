@@ -10,7 +10,16 @@ const config: HardhatUserConfig = {
          chainId: 31337,
       },
    },
-   solidity: '0.8.18',
+   solidity: {
+      compilers: [
+         {
+            version: '0.8.18',
+         },
+         {
+            version: '0.6.6',
+         },
+      ],
+   },
    namedAccounts: {
       deployer: {
          default: 0,

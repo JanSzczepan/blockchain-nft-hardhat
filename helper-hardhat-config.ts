@@ -7,6 +7,7 @@ export interface networkConfigItem {
    requestConfirmations?: string
    mintFee?: string
    blockConfirmations?: number
+   ethUsdPriceFeed?: string
 }
 
 export interface networkConfigInfo {

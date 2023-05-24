@@ -4,6 +4,8 @@ import { developmentChains } from '../helper-hardhat-config'
 
 const BASE_FEE = '250000000000000000'
 const GAS_PRICE_LINK = 1e9
+const DECIMALS = '18'
+const INITIAL_PRICE = '200000000000000000000'
 
 const deployMocks: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
    const { network, deployments, getNamedAccounts } = hre
@@ -13,11 +15,16 @@ const deployMocks: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
    if (developmentChains.includes(network.name)) {
       log('Local network detected! Deploying mocks...')
 
-      const args = [BASE_FEE, GAS_PRICE_LINK]
-
       await deploy('VRFCoordinatorV2Mock', {
          from: deployer,
-         args,
+         args: [BASE_FEE, GAS_PRICE_LINK],
+         log: true,
+         waitConfirmations: 1,
+      })
+
+      await deploy('MockV3Aggregator', {
+         from: deployer,
+         args: [DECIMALS, INITIAL_PRICE],
          log: true,
          waitConfirmations: 1,
       })
@@ -26,5 +33,5 @@ const deployMocks: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
    }
 }
 
-deployMocks.tags = ['all', 'mocks']
+deployMocks.tags = ['all', 'mocks', 'main']
 export default deployMocks
