@@ -21,7 +21,7 @@ contract DynamicSvgNft is ERC721 {
       address priceFeedAddress,
       string memory lowSvg,
       string memory highSvg
-   ) ERC721('DynamicSvgNft', 'DSN') {
+   ) ERC721('Dynamic SVG NFT', 'DSN') {
       i_priceFeed = AggregatorV3Interface(priceFeedAddress);
       s_lowImageURI = svgToImageURI(lowSvg);
       s_highImageURI = svgToImageURI(highSvg);
